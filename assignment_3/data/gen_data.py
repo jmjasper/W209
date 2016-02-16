@@ -16,5 +16,6 @@ for i in range(0,1000):
 
 with open('data.csv', 'wb') as csvfile:
     writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(["Index","Result"])
     for i in range(0,len(index)):
     	writer.writerow([index[i], results[i]])

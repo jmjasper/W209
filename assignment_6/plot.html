@@ -8,6 +8,10 @@ body {
   font: 14px sans-serif;
 }
 
+.label {
+
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -15,9 +19,6 @@ body {
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
-  display: none;
-}
 
 .line {
   fill: none;
@@ -31,6 +32,7 @@ body {
 <body>
 <h1>Assignment 3: W209</h1>
 <p>This plot is the culmulative probability of 1000 simulated coin flips. In theory, we should see relatively quick convergence to a probability of 1/2.</p>
+
 <h3>Plot Below</h3>
 
 <svg id="visualisation" width="1000" height="500"></svg>
@@ -40,7 +42,7 @@ body {
 <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type = 'text/javascript'>
 
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
+var margin = {top: 20, right: 20, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -54,7 +56,7 @@ var vis = d3.select('#visualisation'),
       top: 20,
       right: 20,
       bottom: 20,
-      left: 50
+      left: 60
     },
 
     xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
@@ -80,6 +82,21 @@ var vis = d3.select('#visualisation'),
       .tickSize(5)
       .orient('left')
       .tickSubdivide(true);
+
+vis.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height - 100)
+    .text("income per capita, inflation-adjusted (dollars)");
+
+vis.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 6)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("life expectancy (years)");
 
 vis.append('svg:g')
   .attr('class', 'x axis')
@@ -110,6 +127,14 @@ var lineFunc = d3.svg.line()
 
 <!-- D3 Script Ends Here-->
 
+</script>
+
+<h3> Color Change Function </h3>
+<p> The button below will change the color of the line!</p>
+<button onclick=randcolor()>Try Me If You Dare?</button>
+
+<!-- My line color changing function goes below -->
+<script>
 </script>
 
 </body>

@@ -91,17 +91,17 @@ var vis = d3.select('#visualisation'),
 vis.append("text")
     .attr("class", "x label")
     .attr("text-anchor", "end")
-    .attr("x", width)
-    .attr("y", height - 100)
-    .text("income per capita, inflation-adjusted (dollars)");
+    .attr("x", width - 250)
+    .attr("y", height + 25)
+    .text("Number of Trials");
 
 vis.append("text")
     .attr("class", "y label")
     .attr("text-anchor", "end")
-    .attr("y", 6)
-    .attr("dy", ".75em")
+    .attr("x", -200)
+    .attr("y", 10)
     .attr("transform", "rotate(-90)")
-    .text("life expectancy (years)");
+    .text("Culmulative Probability");
 
 vis.append('svg:g')
   .attr('class', 'x axis')
@@ -173,7 +173,7 @@ function setThickness() {
 <h3> Line Thickness Modification </h3>
 <p> Text field below modifies the thickness of the line!</p>
 
-<input type="text" maxlength="512" id="linethickness" oninput=setThickness()>
+<input type="text" maxlength="218" id="linethickness" oninput=setThickness()>
 </body>
 </main>
 </html>

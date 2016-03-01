@@ -25,13 +25,16 @@ body {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+
 </style>
 
 
 <main>
 <body>
-<h1>Assignment 3: W209</h1>
-<p>This plot is the culmulative probability of 1000 simulated coin flips. In theory, we should see relatively quick convergence to a probability of 1/2.</p>
+<h1>Assignment 6: W209</h1>
+<p>This plot is the culmulative probability of 1000 simulated coin flips. In theory, we should see relatively quick convergence to a probability of 1/2.<br><br>
+I've also added some amusing features -- this was a difficult assignment as I generated the data. If I could do it again, I'd make my script more accessible so I could call it agian, but I wrote the initial random generation script in python and it's inaccessible without some work in JS.
+</p>
 
 <h3>Plot Below</h3>
 
@@ -45,6 +48,8 @@ body {
 var margin = {top: 20, right: 20, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
+
+var color = 'blue';
 
 data = d3.csv("data.csv", function(data){
 	console.log(data);
@@ -119,7 +124,7 @@ var lineFunc = d3.svg.line()
 
   vis.append('svg:path')
   .attr('d', lineFunc(data))
-  .attr('stroke', 'blue')
+  .attr('stroke', color)
   .attr('stroke-width', 2)
   .attr('fill', 'none');
 
@@ -127,16 +132,48 @@ var lineFunc = d3.svg.line()
 
 <!-- D3 Script Ends Here-->
 
+
 </script>
 
 <h3> Color Change Function </h3>
 <p> The button below will change the color of the line!</p>
-<button onclick=randcolor()>Try Me If You Dare?</button>
+
+<button onclick=getRandomColor()>Try Me If You Dare?</button>
 
 <!-- My line color changing function goes below -->
+
+
 <script>
+<!-- Im going to confess, I borrowed the code for the randomizer. Not a great javascripter and this was getting way too tricky -->
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    console.log(color);
+    console.log(document.getElementById('visualisation'));
+    console.log(document.getElementById('visualisation').childNodes);
+    document.getElementById('visualisation').childNodes[4].setAttribute("stroke", color);
+
+}
+
+<!-- This one I built from scratch -->
+
+function setThickness() {
+    var thickness = document.getElementById('linethickness').value;
+    console.log(thickness)
+    document.getElementById('visualisation').childNodes[4].setAttribute("stroke-width", thickness);
+}
+
 </script>
 
+<h3> Line Thickness Modification </h3>
+<p> Text field below modifies the thickness of the line!</p>
+
+<input type="text" maxlength="512" id="linethickness" oninput=setThickness()>
 </body>
 </main>
 </html>

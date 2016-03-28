@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>A leaflet map</title>
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="leaflet.ajax.min.js"></script>
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
+
+    <style>
+        #map {
+            width: 900px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        // initialize the map
+        //var map = L.map('map').setView([34.05, -118.24], 13);
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic2F0aXNoa3QiLCJhIjoiY2lsa2I5Y2ZsNWtwYXZmbWNrZzBrYno1NSJ9.OXOKl8pw4m6blx76LiRgIw';
+        // Replace 'mapbox.streets' with your map id.
+        var basemap = L.tileLayer('https://api.mapbox.com/v4/mapbox.mapbox-streets-v7/{z}/{x}/{y}.png?access_token=' + L.mapbox.accessToken, {
+            attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+        
+        $.getJSON('cb.json', function(data) {
+                var geojson = L.geoJson(data, {
+                  onEachFeature: function (feature, layer) {
+                          layer.bindPopup(feature.properties.NAME + '<br />'
+                                                        + feature.properties.ADDRESS);
+                  }
+                });
+        var map = L.map('map').setView([34.05, -118.24], 12);
+        basemap.addTo(map);
+        geojson.addTo(map);
+        });
+        
+
+            
+    </script>
+</body>
+
+</html>

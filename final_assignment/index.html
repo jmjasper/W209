@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Example of Using Leaflet</title>
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+   <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+      
+     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+      <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
+
+    <style>
+        #map {
+            width: 650px;
+            height: 400px;
+        }
+
+        #maptwo {
+            width: 650px;
+            height: 400px;
+        }
+
+    </style>
+</head>
+
+
+
+<body>
+	<h1>Examining Health And Democratic Support</h1>
+		<h2>Popular Vote Democratic</h2>
+      <div id="map" style="border: 1px solid #AAA;"></div>
+		<h2>States with the highest life expectancys</h2>
+      <div id="maptwo" style="border: 1px solid #AAA;"></div>
+    <script src='us-states.js'></script>
+    <script>
+        // initialize the map
+        var mapboxAccessToken = 'pk.eyJ1Ijoiam1qYXNwZXI4OSIsImEiOiJjaW11eHB1eTAwMmttdjlrazhtZHpuajI3In0.yAa8YVEg34RrvmYb6xldQA';
+		var map_one = L.map('map').setView([37.8, -96], 4);
+		var map_two = L.map('maptwo').setView([37.8, -96], 4);
+
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+    		id: 'mapbox.light',
+    		attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map_one);
+
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+    		id: 'mapbox.light',
+    		attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map_two);
+
+ function getColor(d) {
+    return d > 80  ? '#000080' :
+           d > 70  ? '#0000FF' :
+           d > 60  ? '#6495ED' :
+           d > 50  ? '#87CEFA' :
+           d > 40  ? '#FFA07A' :
+           d > 30  ? '#FF0000' :
+           d > 20  ? '#FED976' :
+                     '#8B0000';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.democratic),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+L.geoJson(statesData, {style: style}).addTo(map_one);
+ 
+ function getColor_life(d) {
+    return d > 85  ? '#660066' :
+           d > 82  ? '#800080' :
+           d > 80  ? '#990099' :
+           d > 78  ? '#cc00cc' :
+           d > 75  ? '#ff33ff' :
+           d > 72  ? '#ff80ff' :
+           d > 65  ? '#ffe6ff' :
+                     '#ffffff';
+}
+
+function style_two(feature) {
+    return {
+        fillColor: getColor_life(feature.properties.life),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+L.geoJson(statesData, {style: style_two}).addTo(map_two);
+ 
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Example of Using Leaflet</title>
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+   <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+      
+     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+      <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
+
+    <style>
+        #container_map {
+          width: 1300px;
+          height: 650px;
+          border: 1px;
+          border-style: solid;
+          border-color: #AAA;
+          padding: 5px 20px 20px 20px;
+        }
+
+        #map {
+            width: 800px;
+            height: 400px;
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        h2 {
+          text-align: center;
+        }
+
+        p {
+          text-align: center;
+        }
+
+    </style>
+</head>
+
+
+
+<body>
+	<h1>Interactivity with Geographic Data</h1>
+    <div id="container_map">
+      <h2 id="flexi-text">Please select a metric you would like to display:</h2>
+        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+      <div id="map" style="border: 1px solid #AAA;"></div>
+      
+
+    </div>
+    <script src='us-states.js'></script>
+    <script>
+        // initialize the map
+        var mapboxAccessToken = 'pk.eyJ1Ijoiam1qYXNwZXI4OSIsImEiOiJjaW11eHB1eTAwMmttdjlrazhtZHpuajI3In0.yAa8YVEg34RrvmYb6xldQA';
+		var map = L.map('map').setView([37.8, -96], 4);
+
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+    		id: 'mapbox.light',
+    		attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+
+
+ function getColor(d) {
+    return d > 80  ? '#000080' :
+           d > 70  ? '#0000FF' :
+           d > 60  ? '#6495ED' :
+           d > 50  ? '#87CEFA' :
+           d > 40  ? '#FFA07A' :
+           d > 30  ? '#FF0000' :
+           d > 20  ? '#FED976' :
+                     '#8B0000';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.democratic),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+L.geoJson(statesData, {style: style}).addTo(map);
+
+    </script>
+</body>
+
+</html>

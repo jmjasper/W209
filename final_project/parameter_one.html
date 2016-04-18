@@ -15,7 +15,6 @@
     <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script type='text/javascript' src="//assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.1.1/chroma.min.js"></script>
     <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -26,8 +25,8 @@
 
     <style>
         #container_map {
-          width: 1400px;
-          height: 800px;
+          width: 1000px;
+          height: 500px;
           /*
           border: 1px;
           border-style: solid;
@@ -45,12 +44,12 @@
         }
 
         #map {
-            width: 1400px;
+            width: 1000px;
             height: 450px;
         }
 
         #title {
-            width: 1200px;
+            width: 1000px;
             height: 50px;   
         }
 
@@ -66,31 +65,6 @@
           text-align: center;
         }
 
-        .legend {
-            line-height: 18px;
-            color: #555;
-        }
-        .legend i {
-            width: 100px;
-            height: 18px;
-            float: left;
-            margin-right: 8px;
-            opacity: 0.7;
-        }
-
-        .info {
-            padding: 6px 8px;
-            font: 14px/16px Arial, Helvetica, sans-serif;
-            background: white;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-        
-        .info h4 {
-            margin: 0 0 5px;
-            color: #777;
-        }
 
 
 
@@ -104,7 +78,7 @@
 	<h1>Interactivity with Geographic Data</h1>
     <div id="container_map">
       <div id="container" style="width: 100%; text-align:center;">
-        <div id="container" style="width: 1000px; height: 75px; display: table-cell; float: left; vertical-align: middle;"> <h2 id="flexi-text" text-align="left" float="left">Please select a metric you would like to display:</h2></div>
+        <div id="container" style="width: 700px; height: 75px; display: table-cell; float: left; vertical-align: middle;"> <h2 id="flexi-text" text-align="left" float="left">Please select a metric you would like to display:</h2></div>
             <div id="container" style="margin-left: 700px; height: 75px; display: table-cell; vertical-align: middle;">
               <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Make a Selection
@@ -121,8 +95,16 @@
         </div>
   
     <!-- Map div that contains the sstuff to be drawn on! -->
-      <div id="title"><h2>You haven't made a selection yet!</h2></div>
+      <div id="title"><h2>Most Populous States -- Population Estimate 2015</h2></div>
       <div id="map" style="border: 1px solid #AAA;"></div>
+     
+      <!--
+    
+      <div id="interact"><button class="btn btn-primary" onclick="printpixeldata()">Interact with the map!</button></div>
+    
+      -->
+      
+    <!-- Secondary Object to Draw D3 Elements to -->
 
     </div>
     
@@ -139,65 +121,20 @@
     		id: 'mapbox.light',
     		attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		}).addTo(map);
-    var myLayer = L.geoJson(statesData, {style: style, renderer: L.canvas}).addTo(map);
-    //var myLayer = L.geoJson(statesData_v2, {style: style, renderer: L.canvas}).addTo(map);
     
-    var geojson;
-
-    //Custome Control for legend and other stuff
-    var legend = L.control({position: 'bottomright'});
-
-    legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 20, 30, 40, 50, 60, 70, 80],
-        labels = [];
-
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-    }
-
-    return div;
-};
-
-legend.addTo(map);
-
-/*
-
-    Deprecated for testing -- May be possible
-    function printpixeldata(){
-    var imagedata;
-    var canvas = document.getElementById("map");
-    console.log(canvas)
-    imagedata = canvas.getContext("2d");
-    //.getImageData(dragrect.attr("x"), dragrect.attr("y"), width, height);
-
-    for (var x=0; x< width *height*4; x+=1)
-      alert(imagedata.data[x])
-      console.log(imagedata);
-  }
-*/
+    var myLayer = L.geoJson(statesData, {style: style, renderer: L.canvas}).addTo(map);
 
     
     //To Do: Update with color function
     function getColor(d) {
-
-      var scale = chroma.scale(['white', 'red']);
-        scale(0.5).hex();
-
-        //Can't ID a max here! d comes in as individual values
-
-        return d > 80  ? scale(1).hex() :
-               d > 70  ? scale(0.9).hex() :
-               d > 60  ? scale(0.8).hex() :
-               d > 50  ? scale(0.6).hex() :
-               d > 40  ? scale(0.5).hex() :
-               d > 30  ? scale(0.4).hex() :
-               d > 20  ? scale(0.2).hex():
-                         scale(0).hex();                         
+        return d > 80  ? '#000080' :
+               d > 70  ? '#0000FF' :
+               d > 60  ? '#6495ED' :
+               d > 50  ? '#87CEFA' :
+               d > 40  ? '#FFA07A' :
+               d > 30  ? '#FF0000' :
+               d > 20  ? '#FED976' :
+                         '#8B0000';
     }
 
     function style(feature) {
@@ -211,62 +148,6 @@ legend.addTo(map);
         };
     }
 
-    function highlightFeature(e) {
-        var layer = e.target;
-
-        layer.setStyle({
-            weight: 5,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 0.7
-        });
-
-        if (!L.Browser.ie && !L.Browser.opera) {
-            layer.bringToFront();
-        }
-
-        info.update(layer.feature.properties);
-    }
-
-    function resetHighlight(e) {
-      geojson.resetStyle(e.target);
-      info.update();
-}
-
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-}
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-    });
-}
-
-geojson = L.geoJson(statesData, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map);
-
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
-};
-
-// method that we will use to update the control based on feature properties passed
-info.update = function (props) {
-    this._div.innerHTML = '<h4>US Net International Migration</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
-        : 'Hover over a state');
-};
-
-info.addTo(map);
-
     //Unfortunately this doesn't work due to a leaflet error! Have to work around
 
     /*
@@ -277,9 +158,25 @@ info.addTo(map);
       }
       console.log(x)
       // var canvasTiles = L.tileLayer.canvas();
-      var myLayer = L.geoJson(statesData, {style: style, renderer: L.canvas}).addTo(map);
     }
     */
+
+    /*
+
+    Deprecated for testing -- May be possible
+    function printpixeldata(){
+    var imagedata;
+    var canvas = document.getElementById("map");
+    console.log(canvas)
+    imagedata = canvas.getContext("2d");
+    //.getImageData(dragrect.attr("x"), dragrect.attr("y"), width, height);
+
+    for (var x=0; x< width *height*4; x+=1)
+      alert(imagedata.data[x])
+      console.log(imagedata);
+    }
+    */
+
     </script>
 </body>
 

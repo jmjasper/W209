@@ -13,6 +13,7 @@
     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
     <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
@@ -36,12 +37,12 @@
         }
 
         #map {
-            width: 800px;
-            height: 400px;
+            width: 1260px;
+            height: 580px;
         }
 
         #title {
-            width: 800px;
+            width: 1300px;
             height: 50px;   
         }
 
@@ -71,12 +72,14 @@
         <div id="container" style="width: 900px; height: 75px; display: table-cell; float: left; vertical-align: middle;"> <h2 id="flexi-text" text-align="left" float="left">Please select a metric you would like to display:</h2></div>
             <div id="container" style="margin-left: 700px; height: 75px; display: table-cell; vertical-align: middle;">
               <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Make a Selection
                 <span class="caret"></span></button>
                   <ul class="dropdown-menu">
-                    <li><a href="#" style="background-color:#ff0000;" onclick="myFunction()">HTML</a></li>
-                    <li><a href="#">CSS</a></li>
-                    <li><a href="#">JavaScript</a></li>
+                    <li><a href="#" onclick="clearmap()">Clear Map</a></li>
+                    <li><a href="#" style="background-color:#ff0000;" onclick="myFunction()">Parameter One</a></li>
+                    <li><a href="#">Parameter Two</a></li>
+                    <li><a href="#">Parameter Three</a></li>
+
                   </ul>
               </div>
             </div>
@@ -85,6 +88,13 @@
     <!-- Map div that contains the sstuff to be drawn on! -->
       <div id="title"><h2>You haven't made a selection yet!</h2></div>
       <div id="map" style="border: 1px solid #AAA;"></div>
+     
+      <!--
+    
+      <div id="interact"><button class="btn btn-primary" onclick="printpixeldata()">Interact with the map!</button></div>
+    
+      -->
+      
     <!-- Secondary Object to Draw D3 Elements to -->
 
     </div>
@@ -108,7 +118,8 @@
     var imagedata;
     var canvas = document.getElementById("map");
     console.log(canvas)
-    imagedata = canvas.getContext("2d").getImageData(dragrect.attr("x"), dragrect.attr("y"), width, height);
+    imagedata = canvas.getContext("2d");
+    //.getImageData(dragrect.attr("x"), dragrect.attr("y"), width, height);
 
     for (var x=0; x< width *height*4; x+=1)
       alert(imagedata.data[x])
@@ -143,11 +154,10 @@
     //ADD the following -- pass the unique features, develop lookup
     function myFunction(){
       console.log("You clicked a button!")
+      var canvasTiles = L.tileLayer.canvas();
+      L.geoJson(statesData, {style: style, renderer: canvasTiles}).addTo(map);
     }
 
-    var canvasTiles = L.tileLayer.canvas();
-
-    L.geoJson(statesData, {style: style, renderer: canvasTiles}).addTo(map);
 
     </script>
 </body>

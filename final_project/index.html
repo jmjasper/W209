@@ -8,9 +8,13 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
    <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-      
-     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-      <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    
+    <!-- Assorted support files -->  
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
 
@@ -25,9 +29,20 @@
           padding: 5px 20px 20px 20px;
         }
 
+        #container {
+          border: 1px;
+          border-style: solid;
+          border-color: #AAA;
+        }
+
         #map {
             width: 800px;
             height: 400px;
+        }
+
+        #title {
+            width: 800px;
+            height: 50px;   
         }
 
         h1 {
@@ -42,6 +57,8 @@
           text-align: center;
         }
 
+
+
     </style>
 </head>
 
@@ -50,20 +67,35 @@
 <body>
 	<h1>Interactivity with Geographic Data</h1>
     <div id="container_map">
-      <h2 id="flexi-text">Please select a metric you would like to display:</h2>
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-        <div id="myDropdown" class="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
+      <div id="container" style="width: 100%; text-align:center;">
+        <div id="container" style="width: 900px; height: 75px; display: table-cell; float: left; vertical-align: middle;"> <h2 id="flexi-text" text-align="left" float="left">Please select a metric you would like to display:</h2></div>
+            <div id="container" style="margin-left: 700px; height: 75px; display: table-cell; vertical-align: middle;">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" style="background-color:#ff0000;" onclick="myFunction()">HTML</a></li>
+                    <li><a href="#">CSS</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                  </ul>
+              </div>
+            </div>
+        </div>
+  
+    <!-- Map div that contains the sstuff to be drawn on! -->
+      <div id="title"><h2>You haven't made a selection yet!</h2></div>
       <div id="map" style="border: 1px solid #AAA;"></div>
-      
+    <!-- Secondary Object to Draw D3 Elements to -->
 
     </div>
+    
+    <!-- Container for us-states.js and the associated data-->
     <script src='us-states.js'></script>
+    <script src='updated-us-states-2.js'></script>
+
     <script>
         // initialize the map
-        var mapboxAccessToken = 'pk.eyJ1Ijoiam1qYXNwZXI4OSIsImEiOiJjaW11eHB1eTAwMmttdjlrazhtZHpuajI3In0.yAa8YVEg34RrvmYb6xldQA';
+    var mapboxAccessToken = 'pk.eyJ1Ijoiam1qYXNwZXI4OSIsImEiOiJjaW11eHB1eTAwMmttdjlrazhtZHpuajI3In0.yAa8YVEg34RrvmYb6xldQA';
 		var map = L.map('map').setView([37.8, -96], 4);
 
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
@@ -72,29 +104,50 @@
 		}).addTo(map);
 
 
- function getColor(d) {
-    return d > 80  ? '#000080' :
-           d > 70  ? '#0000FF' :
-           d > 60  ? '#6495ED' :
-           d > 50  ? '#87CEFA' :
-           d > 40  ? '#FFA07A' :
-           d > 30  ? '#FF0000' :
-           d > 20  ? '#FED976' :
-                     '#8B0000';
-}
+    function printpixeldata(){
+    var imagedata;
+    var canvas = document.getElementById("map");
+    console.log(canvas)
+    imagedata = canvas.getContext("2d").getImageData(dragrect.attr("x"), dragrect.attr("y"), width, height);
 
-function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.democratic),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
+    for (var x=0; x< width *height*4; x+=1)
+      alert(imagedata.data[x])
+      console.log(imagedata);
+  }
 
-L.geoJson(statesData, {style: style}).addTo(map);
+
+    
+
+    function getColor(d) {
+        return d > 80  ? '#000080' :
+               d > 70  ? '#0000FF' :
+               d > 60  ? '#6495ED' :
+               d > 50  ? '#87CEFA' :
+               d > 40  ? '#FFA07A' :
+               d > 30  ? '#FF0000' :
+               d > 20  ? '#FED976' :
+                         '#8B0000';
+    }
+
+    function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.democratic),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    //ADD the following -- pass the unique features, develop lookup
+    function myFunction(){
+      console.log("You clicked a button!")
+    }
+
+    var canvasTiles = L.tileLayer.canvas();
+
+    L.geoJson(statesData, {style: style, renderer: canvasTiles}).addTo(map);
 
     </script>
 </body>

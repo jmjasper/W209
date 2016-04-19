@@ -111,8 +111,8 @@
                 <span class="caret"></span></button>
                   <ul class="dropdown-menu">
                     <li><a href="index.html">Clear Map</a></li>
-                    <li><a href="net_migration_2015.html" style="background-color:#ff0000;">Net Migration - 2015 Est</a></li>
-                    <li><a href="net_migration_2014.html" style="background-color:#0000ff;" >Net Migration - 2014 Est</a></li>
+                    <li><a href="net_migration_2015.html" style="background-color:#ff0000;">Net Migration - 2015 Estimate</a></li>
+                    <li><a href="net_migration_2014.html" style="background-color:#0000ff;">Net Migration - 2014 Estimate</a></li>
                     <li><a href="white.html" style="background-color:#00ff00;">Percent of Population White</a></li>
 
                   </ul>
@@ -121,13 +121,15 @@
         </div>
   
     <!-- Map div that contains the sstuff to be drawn on! -->
-      <div id="title"><h2>You haven't made a selection yet!</h2></div>
+      <div id="title"><h2>Net Migration -- 2015 Estimate</h2></div>
       <div id="map" style="border: 1px solid #AAA;"></div>
 
     </div>
     
     <!-- Container for us-states.js and the associated data-->
-    
+    <script src='us-states.js'></script>
+    <script src='updated-us-states-2.js'></script>
+
     <script>
         // initialize the map
     var mapboxAccessToken = 'pk.eyJ1Ijoiam1qYXNwZXI4OSIsImEiOiJjaW11eHB1eTAwMmttdjlrazhtZHpuajI3In0.yAa8YVEg34RrvmYb6xldQA';
@@ -147,7 +149,6 @@
 
     legend.onAdd = function (map) {
 
-
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [-50000, -25000, -10000, 0, 10000, 25000, 50000, 100000],
         labels = [];
@@ -162,7 +163,7 @@
     return div;
 };
 
-//legend.addTo(map);
+legend.addTo(map);
 
 /*
 

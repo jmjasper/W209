@@ -22,10 +22,10 @@
 <!-- NAVBAR -->
 <ul class="nav nav-pills" style="background-color:lightgrey;">
     <li role="presentation"><a href="index.html">Introduction</a></li>
-    <li role="presentation" class="active"><a href="pop_2015.html">Population 2015</a></li>
+    <li role="presentation"><a href="pop_2015.html">Population 2015</a></li>
     <li role="presentation"><a href="white.html">% Population - White</a></li>
     <li role="presentation"><a href="hispanic.html">% Population - Hispanic</a></li>
-    <li role="presentation"><a href="highschool.html">% Completing High School</a></li>
+    <li role="presentation" class="active"><a href="highschool.html">% Completing High School</a></li>
     <li role="presentation"><a href="bachelors.html">% Completing Bachelors Degree</a></li>
     <li role="presentation"><a href="advanced.html">% Completing Advanced Degree</a></li>
 </ul>
@@ -95,7 +95,7 @@
 
 		<section>
 			<div style="width: 100%;">
-				<h1 style="text-align: center">Population of States</h1>
+				<h1 style="text-align: center">States with the Largest Proportion of Whites</h1>
 			</div>
 		</section>
 
@@ -106,9 +106,9 @@
 			<div style="float: left; width: 40%; height: 350px;">
 				<h3 style="text-align: center;">Summary</h3>
                 <br/>
-                <h4 style="padding-left: 20px">California is the largest state with over 39M people.</h4>
+                <h4 style="padding-left: 20px">Vermont is the whitest state with 94% of its population identifying as white.</h4>
                 <br/>
-                <h4 style="padding-left: 20px">Whyoming is the least populated state with only 582,658 people.</h4>
+                <h4 style="padding-left: 20px">California is the least white state with only 39% of its population identifying as white.</h4>
 			</div>
 		</section>
 
@@ -151,7 +151,7 @@
     legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 1000000, 5000000, 10000000, 15000000, 20000000, 25000000,30000000],
+        grades = [10, 20, 30, 40, 50, 60, 70, 80],
         labels = [];
 
     // loop through our density intervals and generate a label with a colored square for each interval
@@ -168,24 +168,24 @@ legend.addTo(map);
 
     function getColor(d) {
 
-      var scale = chroma.scale(['white', 'green']);
+      var scale = chroma.scale(['white', 'blue']);
         scale(0.5).hex();
 
         //Can't ID a max here! d comes in as individual values
 
-        return d > 30000000  ? scale(1).hex() :
-               d > 25000000  ? scale(0.9).hex() :
-               d > 20000000  ? scale(0.8).hex() :
-               d > 15000000 ? scale(0.6).hex() :
-               d > 10000000  ? scale(0.5).hex() :
-               d > 5000000  ? scale(0.4).hex() :
-               d > 1000000 ? scale(0.2).hex():
+        return d > 70  ? scale(1).hex() :
+               d > 60  ? scale(0.9).hex() :
+               d > 50  ? scale(0.8).hex() :
+               d > 40 ? scale(0.6).hex() :
+               d > 30  ? scale(0.5).hex() :
+               d > 20  ? scale(0.4).hex() :
+               d > 10 ? scale(0.2).hex():
                          scale(0).hex();                         
     }
 
     function style(feature) {
         return {
-            fillColor: getColor(feature.properties.POPESTIMATE2015),
+            fillColor: getColor(feature.properties.PctHighSchoolDiploma * 100),
             weight: 2,
             opacity: 1,
             color: 'white',
@@ -243,8 +243,8 @@ info.onAdd = function (map) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Total Population (2015 Est)</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.POPESTIMATE2015 + ' People '
+    this._div.innerHTML = '<h4>Perecentage of Population With High School Diploma</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' + props.PctHighSchoolDiploma + ' % High School Diploma '
         : 'Hover over a state');
 };
 
@@ -258,7 +258,7 @@ info.addTo(map);
         //var maxAge = 100; // You can also compute this from the data
         var barSpacing = 1; // The amount of space you want to keep between the bars
         var padding = {
-            left: 75
+            left: 50
             , right: 0
             , top: 20
             , bottom: 20
@@ -267,11 +267,11 @@ info.addTo(map);
         function animateBarsUp(data) {
 
             data.sort(function (a, b, col_name) {
-                return d3.descending(a.POPESTIMATE2015, b.POPESTIMATE2015);
+                return d3.descending(a.White, b.White);
             })
 
             var maxAge = d3.max(data, function (d) {
-                return +d.POPESTIMATE2015;
+                return +d.White;
             }); // You can also compute this from the data
 
 
@@ -361,17 +361,17 @@ info.addTo(map);
                 .duration(1500)
                 .attr({
                     y: function (d, i) {
-                        return convert.y(d.POPESTIMATE2015);
+                        return convert.y(d.White);
                     }
                     , height: function (d, i) {
-                        return maxHeight - convert.y(d.POPESTIMATE2015);
+                        return maxHeight - convert.y(d.White);
                     }
                 });
 
 
             // chart title
             chart.append("text")
-                .text("Top 10 States by Pop Estimates 2015")
+                .text("Top 10 States by White Population 2015")
                 .attr("x", svgWidth / 2)
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px")
@@ -380,9 +380,9 @@ info.addTo(map);
             return chart;
         }
 
-        d3.csv("data/pop2015est.csv", function (error, dataset) {
+        d3.csv("data/white.csv", function (error, dataset) {
             dataset.forEach(function (d) {
-                d.POPESTIMATE2015 = +d.POPESTIMATE2015
+                d.White = +d.White
             })
             animateBarsUp(dataset);
         })

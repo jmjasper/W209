@@ -105,9 +105,9 @@
 			<div style="float: left; width: 40%; height: 350px;">
 				<h3 style="text-align: center;">Summary</h3>
                 <br/>
-                <h4 style="padding-left: 20px">Vermont is the whitest state with 94% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">The District of Columbia has the highest completion rate of advanced degrees at 28%.</h4>
                 <br/>
-                <h4 style="padding-left: 20px">California is the least white state with only 39% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">Arkansas has the lowest completion rate of advanced degress at 6.1%.</h4>
 			</div>
 		</section>
 
@@ -263,16 +263,13 @@ info.addTo(map);
             , bottom: 20
         };
 
-        function animateBarsUp(data) {
+       function animateBarsUp(data) {
 
-            data.sort(function (a, b, col_name) {
-                return d3.descending(a.White, b.White);
+             var maxAge = d3.max(data, function(d) { return +d.PctAdvancedDegree;} ); // You can also compute this from the data
+            
+            data.sort(function (a, b) {
+                return d3.descending(a.PctAdvancedDegree, b.PctAdvancedDegree);
             })
-
-            var maxAge = d3.max(data, function (d) {
-                return +d.White;
-            }); // You can also compute this from the data
-
 
             data = data.slice(0, 10)
 
@@ -360,28 +357,28 @@ info.addTo(map);
                 .duration(1500)
                 .attr({
                     y: function (d, i) {
-                        return convert.y(d.White);
+                        return convert.y(d.PctAdvancedDegree);
                     }
                     , height: function (d, i) {
-                        return maxHeight - convert.y(d.White);
+                        return maxHeight - convert.y(d.PctAdvancedDegree);
                     }
                 });
 
 
             // chart title
             chart.append("text")
-                .text("Top 10 States by White Population 2015")
+                .text("Top 10 States w/ Advanced  Degree")
                 .attr("x", svgWidth / 2)
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
+                .attr("text-anchor", "middle")  
+                .style("font-size", "16px") 
                 .style("text-decoration", "underline");
 
             return chart;
         }
 
-        d3.csv("data/white.csv", function (error, dataset) {
+        d3.csv("data/PctAdvancedDegree.csv", function (error, dataset) {
             dataset.forEach(function (d) {
-                d.White = +d.White
+                d.PctAdvancedDegree = +d.PctAdvancedDegree
             })
             animateBarsUp(dataset);
         })

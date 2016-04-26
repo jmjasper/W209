@@ -106,9 +106,11 @@
 			<div style="float: left; width: 40%; height: 350px;">
 				<h3 style="text-align: center;">Summary</h3>
                 <br/>
-                <h4 style="padding-left: 20px">Vermont is the whitest state with 94% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">Nationwide, all states see a majority of their students graduate high school.</h4>
                 <br/>
-                <h4 style="padding-left: 20px">California is the least white state with only 39% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">Wyoming has the most student graduating high school with 91.8% graduating.</h4>
+                <br/>
+                <h4 style="padding-left: 20px">Mississippi has the fewest students graduating high school with only 80.2%.</h4>
 			</div>
 		</section>
 
@@ -267,11 +269,11 @@ info.addTo(map);
         function animateBarsUp(data) {
 
             data.sort(function (a, b, col_name) {
-                return d3.descending(a.White, b.White);
+                return d3.descending(a.PctHighSchoolDiploma, b.PctHighSchoolDiploma);
             })
 
             var maxAge = d3.max(data, function (d) {
-                return +d.White;
+                return +d.PctHighSchoolDiploma;
             }); // You can also compute this from the data
 
 
@@ -361,17 +363,17 @@ info.addTo(map);
                 .duration(1500)
                 .attr({
                     y: function (d, i) {
-                        return convert.y(d.White);
+                        return convert.y(d.PctHighSchoolDiploma);
                     }
                     , height: function (d, i) {
-                        return maxHeight - convert.y(d.White);
+                        return maxHeight - convert.y(d.PctHighSchoolDiploma);
                     }
                 });
 
 
             // chart title
             chart.append("text")
-                .text("Top 10 States by White Population 2015")
+                .text("Top 10 States w/ High School Diploma")
                 .attr("x", svgWidth / 2)
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px")
@@ -380,9 +382,9 @@ info.addTo(map);
             return chart;
         }
 
-        d3.csv("data/white.csv", function (error, dataset) {
+        d3.csv("data/pctHighSchoolDiploma.csv", function (error, dataset) {
             dataset.forEach(function (d) {
-                d.White = +d.White
+                d.PctHighSchoolDiploma = +d.PctHighSchoolDiploma
             })
             animateBarsUp(dataset);
         })

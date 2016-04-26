@@ -106,9 +106,9 @@
 			<div style="float: left; width: 40%; height: 350px;">
 				<h3 style="text-align: center;">Summary</h3>
                 <br/>
-                <h4 style="padding-left: 20px">Vermont is the whitest state with 94% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">The District of Columbia has the highest proportion of Bachelors Degree Completion at 48.5%.</h4>
                 <br/>
-                <h4 style="padding-left: 20px">California is the least white state with only 39% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">West Virginia has the lowest completion of bachelor's degrees at 17.3%.</h4>
 			</div>
 		</section>
 
@@ -267,16 +267,11 @@ info.addTo(map);
         function animateBarsUp(data) {
 
             data.sort(function (a, b, col_name) {
-                return d3.descending(a.White, b.White);
+                return d3.descending(a.PctBachelorsDegree, b.PctBachelorsDegree);
             })
 
-            var maxAge = d3.max(data, function (d) {
-                return +d.White;
-            }); // You can also compute this from the data
-
-
             data = data.slice(0, 10)
-
+            var maxAge = d3.max(data, function(d) { return +d.PctBachelorsDegree;} ); // You can also compute this from the data
             var maxWidth = svgWidth - padding.left - padding.right;
             var maxHeight = svgHeight - padding.top - padding.bottom;
 
@@ -361,28 +356,28 @@ info.addTo(map);
                 .duration(1500)
                 .attr({
                     y: function (d, i) {
-                        return convert.y(d.White);
+                        return convert.y(d.PctBachelorsDegree);
                     }
                     , height: function (d, i) {
-                        return maxHeight - convert.y(d.White);
+                        return maxHeight - convert.y(d.PctBachelorsDegree);
                     }
                 });
 
 
             // chart title
             chart.append("text")
-                .text("Top 10 States by White Population 2015")
+                .text("Top 10 States w/ Bachelor Degree")
                 .attr("x", svgWidth / 2)
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
+                .attr("text-anchor", "middle")  
+                .style("font-size", "16px") 
                 .style("text-decoration", "underline");
 
             return chart;
         }
 
-        d3.csv("data/white.csv", function (error, dataset) {
+        d3.csv("data/PctBachelorsDegree.csv", function (error, dataset) {
             dataset.forEach(function (d) {
-                d.White = +d.White
+                d.PctBachelorsDegree = +d.PctBachelorsDegree
             })
             animateBarsUp(dataset);
         })

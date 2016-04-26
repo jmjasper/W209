@@ -106,9 +106,9 @@
 			<div style="float: left; width: 40%; height: 350px;">
 				<h3 style="text-align: center;">Summary</h3>
                 <br/>
-                <h4 style="padding-left: 20px">Vermont is the whitest state with 94% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">New Mexico has largest hispanic population with 43% of its population identifying as hispanic.</h4>
                 <br/>
-                <h4 style="padding-left: 20px">California is the least white state with only 39% of its population identifying as white.</h4>
+                <h4 style="padding-left: 20px">Maine, West Virginia, and Vermont are the least hispanic states with only 1% of their populations identifying as white.</h4>
 			</div>
 		</section>
 
@@ -258,7 +258,7 @@ info.addTo(map);
         //var maxAge = 100; // You can also compute this from the data
         var barSpacing = 1; // The amount of space you want to keep between the bars
         var padding = {
-            left: 50
+            left: 35
             , right: 0
             , top: 20
             , bottom: 20
@@ -267,11 +267,11 @@ info.addTo(map);
         function animateBarsUp(data) {
 
             data.sort(function (a, b, col_name) {
-                return d3.descending(a.White, b.White);
+                return d3.descending(a.Hispanic, b.Hispanic);
             })
 
             var maxAge = d3.max(data, function (d) {
-                return +d.White;
+                return +d.Hispanic;
             }); // You can also compute this from the data
 
 
@@ -361,17 +361,17 @@ info.addTo(map);
                 .duration(1500)
                 .attr({
                     y: function (d, i) {
-                        return convert.y(d.White);
+                        return convert.y(d.Hispanic);
                     }
                     , height: function (d, i) {
-                        return maxHeight - convert.y(d.White);
+                        return maxHeight - convert.y(d.Hispanic);
                     }
                 });
 
 
             // chart title
             chart.append("text")
-                .text("Top 10 States by White Population 2015")
+                .text("Top 10 States by Hispanic Population 2015")
                 .attr("x", svgWidth / 2)
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px")
@@ -380,13 +380,12 @@ info.addTo(map);
             return chart;
         }
 
-        d3.csv("data/white.csv", function (error, dataset) {
+        d3.csv("data/hispanic.csv", function (error, dataset) {
             dataset.forEach(function (d) {
-                d.White = +d.White
+                d.Hispanic = +d.Hispanic
             })
             animateBarsUp(dataset);
-        })
-
+        });
 
 </script>
 

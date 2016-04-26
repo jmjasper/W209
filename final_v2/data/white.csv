@@ -1,0 +1,53 @@
+idx,State,White
+0,United States,0.62
+1,Alabama,0.66
+2,Alaska,0.57
+3,Arizona,0.49
+4,Arkansas,0.72
+5,California,0.39
+6,Colorado,0.7
+7,Connecticut,0.71
+8,Delaware,0.63
+9,District of Columbia,0.37
+10,Florida,0.55
+11,Georgia,0.53
+12,Hawaii,0.19
+13,Idaho,0.82
+14,Illinois,0.64
+15,Indiana,0.78
+16,Iowa,0.88
+17,Kansas,0.75
+18,Kentucky,0.84
+19,Louisiana,0.58
+20,Maine,0.92
+21,Maryland,0.54
+22,Massachusetts,0.72
+23,Michigan,0.75
+24,Minnesota,0.79
+25,Mississippi,0.57
+26,Missouri,0.81
+27,Montana,0.9
+28,Nebraska,0.79
+29,Nevada,0.5
+30,New Hampshire,0.92
+31,New Jersey,0.58
+32,New Mexico,0.4
+33,New York,0.57
+34,North Carolina,0.62
+35,North Dakota,0.88
+36,Ohio,0.8
+37,Oklahoma,0.68
+38,Oregon,0.76
+39,Pennsylvania,0.77
+40,Rhode Island,0.77
+41,South Carolina,0.64
+42,South Dakota,0.85
+43,Tennessee,0.74
+44,Texas,0.44
+45,Utah,0.81
+46,Vermont,0.94
+47,Virginia,0.63
+48,Washington,0.7
+49,West Virginia,0.92
+50,Wisconsin,0.82
+51,Wyoming,0.86

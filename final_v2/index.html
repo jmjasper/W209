@@ -1,0 +1,177 @@
+<html>
+	<head>
+    <meta charset="utf-8">
+    <title>W209 Final Project</title>
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+   <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    
+    <!-- Assorted support files -->  
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type='text/javascript' src="//assets-datawrapper.s3.amazonaws.com/vendor/chroma-js/0.5.2/chroma.min.js"></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet'/>
+	</head>
+<!-- NAVBAR -->
+<ul class="nav nav-pills" style="background-color:lightgrey;">
+  	<li role="presentation" class="active"><a href="index.html">Introduction</a></li>
+  	<li role="presentation"><a href="pop_2015.html">Population 2015</a></li>
+  	<li role="presentation"><a href="white.html">% Population - White</a></li>
+  	<li role="presentation"><a href="#">% Population - Hispanic</a></li>
+  	<li role="presentation"><a href="#">% Completing High School</a></li>
+	<li role="presentation"><a href="#">% Completing Bachelors Degree</a></li>
+	<li role="presentation"><a href="#">% Completing Advanced Degree</a></li>
+</ul>
+
+
+<!-- Custome Sytles -->
+<style>
+
+/*
+		div {
+			border: 1px;
+			border-style: solid;
+			border-color: #AAA;
+		}
+	*/
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+        .legend i {
+            width: 100px;
+            height: 18px;
+            float: left;
+            margin-right: 0px;
+            opacity: 0.7;
+        }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        p {
+        font: 18px/24px Arial, Helvetica, sans-serif;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        h2 {
+            padding-left: 35px;
+        }
+
+</style>
+
+		<section>
+			<div style="width: 100%;">
+				<h1 style="text-align: center">W209 Final Project - What is My Market?</h1>
+			</div>
+		</section>
+
+        <section>
+            <div style="float: left; width: 100%;">
+                <p>Knowing who you are selling a product to is hard! While lots of money goes into understanding customers, very little goes into understanding where they live and deriving information about what the whole market is for a given product. This semester we've worked on addressing these challenges through a creative data visualization to focus on providing a whole market picture across a variety of metrics.</p>
+            </div>
+        </section>
+
+
+		<section>
+			<div style="float: left; width: 100%;">
+                <h2> Intended Audience</h2>
+                <p> We've designed this tool with marketers and strategy professionals in mind, with a particular focus on providing contextual information about what the market distribution is, where it is located geographically, and the high and low points.</p>
+			</div>
+		
+		</section>
+
+        <section>
+            <div style="float: left; width: 100%;">
+                <h2>Using the Tool</h2>
+                <p> To start using the tool, simply select one of the buttons on our top navigation bar to view the desired metric. You'll find three charts and a short narractive on each page. You can highlight and pan the geographic map as needed to extract details, view the overall distribution of values for the states.</p>
+            </div>
+        </section>
+
+        <section>
+            <div style="float: left; width: 100%;">
+                <h2>Data Sources</h2>
+                <ul>
+                    <li><p>US Census Bureau</p></li>
+                    <li><p>Kaiser Foundation</p></li>
+                    <li><p>Denver Post Summary Suvery</p></li>
+                    <li><p>D3 States GeoJson</p></li>
+                </ul> 
+            </div>
+        </section>
+
+        <section>
+            <div style="float: left; width: 100%;">
+                <h2>Tools</h2>
+                <ul>
+                    <li><p>Org2Org</p></li>
+                    <li><p>Leaflet</p></li>
+                    <li><p>Chroma.js</p></li>
+                    <li><p>D3</p></li>
+                    <li><p>Bootstrap</p></li>
+                    <li><p>D3 States GeoJson</p></li>
+                    <li><p>Python/Pandas</p></li>
+                </ul> 
+            </div>
+        </section>
+
+
+ <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Our Team Members</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/raja.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Raja</h4>
+                        <p class="text-muted"><em>Clinical Data Specialist</em></p>
+                        <p class="text-muted"><b>Stryker</b></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/satish.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Satish</h4>
+                        <p class="text-muted"><em>Data Scientist</em></p>
+                        <p class="text-muted"><b>Hart</b></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="img/james.jpg" class="img-responsive img-circle" alt="">
+                        <h4>James</h4>
+                        <p class="text-muted"><em>Business Insights Analyst</em></p>
+                        <p class="text-muted"><b>Disney Interactive</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</html>
